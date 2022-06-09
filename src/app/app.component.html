@@ -1,0 +1,60 @@
+<nav class="navbar fixed-top navbar-expand-lg bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Orvosi Törzsadat Kezelő</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link fw-bold fs-5" routerLink="">Páciensek</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link fw-bold fs-5" routerLink="tests">Szűrővizsgálatok</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container fluid mt-5 pt-5">
+  <router-outlet></router-outlet>
+</div>
+
+<!--
+  Sehogy sem sikerült felraknom a ng-bootstrap modult:
+    npm ERR! code ERESOLVE
+    npm ERR! ERESOLVE unable to resolve dependency tree
+    npm ERR!
+    npm ERR! While resolving: otk-szo2sl@0.0.0
+    npm ERR! Found: @angular/compiler@13.2.7
+    npm ERR! node_modules/@angular/compiler
+    npm ERR!   @angular/compiler@"~13.2.0" from the root project
+    npm ERR!
+    npm ERR! Could not resolve dependency:
+    npm ERR! peer @angular/compiler@"13.3.11" from @angular/localize@13.3.11
+    npm ERR! node_modules/@angular/localize
+    npm ERR!   peer @angular/localize@"^13.0.0" from @ng-bootstrap/ng-bootstrap@12.1.2
+    npm ERR!   node_modules/@ng-bootstrap/ng-bootstrap
+    npm ERR!     @ng-bootstrap/ng-bootstrap@"*" from the root project
+    npm ERR!
+    npm ERR! Fix the upstream dependency conflict, or retry
+    npm ERR! this command with --force, or --legacy-peer-deps
+    npm ERR! to accept an incorrect (and potentially broken) dependency resolution.
+  Ezért ezt az elég csúnya megoldást választottam...
+-->
+<button #buttonEl type="button" style="display: none" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"></button>
+
+<div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Hiba!</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        {{ error }}
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,43 @@
+<div class="modal fade" id="notifyModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="notifyModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="notifyModalLabel">Kiértesítés</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <p>
+                A következő üzenet kiküldése a páciensek között.
+            </p>
+            <textarea class="form-control" rows="10" [(ngModel)]="notify" [ngModelOptions]="{standalone: true}"></textarea>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Mégse</button>
+            <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#sendedModal">Elküld</button>
+        </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="sendedModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="sendedModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="sendedModalLabel">Kiküldve</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <p>
+                A feladatnat leírásában nem volt benne az email cím,
+                így a végén nem volt kedvem az összes modelt és szolgáltatást módosítani,
+                hogy ténylegesen működjön az email küldés...<br>
+                Akkor úgy lett volna szép ha csinálok hozzá egy beállítás oldalt
+                ahol be lehet állítani a kiszolgáló adatit, stb...
+            </p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Vissza</button>
+        </div>
+        </div>
+    </div>
+</div>

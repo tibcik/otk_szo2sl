@@ -1,0 +1,132 @@
+<div class="container-fluid mt-5 shadow p-3 mb-5 bg-body rounded">
+    <form [formGroup]="diagnosisForm">
+        <div class="row" *ngIf="header">
+            <div class="col-11">
+                <strong>Szűrővizsgálat: </strong>{{ header }}
+            </div>
+            <div class="col-1">
+                <button type="button" class="btn btn-danger" (click)="removeTest()">X</button>
+            </div>
+        </div>
+        <div class="row mb-2">
+                <div class="col">
+                    <label for="diagnosis" class="fs-4 fw-bold">Diagnózis</label>
+                    <textarea class="form-control" id="diagnosis" formControlName="diagnosis"></textarea>
+                    <div
+                        *ngIf="diagnosisForm.controls['diagnosis'].invalid"
+                        class="alert alert-warning" 
+                        role="alert">
+                        A diagnózisnak legalább 10 karakter hosszúnak kell lennie!
+                    </div>
+                </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-6">
+                <h4>Kezelések</h4>
+                <datalist id="treatmentOptions">
+                    <option [value]="treatment.name + ' /' + treatment.id + '/'" *ngFor="let treatment of treatments"></option>
+                </datalist>
+                <ul class="list-group list-group-flush" formArrayName="treatments">
+                    <li class="list-group-item" *ngFor="let item of treatmentsFormArray.controls; let i = index">
+                        <div class="row" [formGroup]="toGroup(item)">
+                            <div class="col-md-10">
+                                <input
+                                    class="form-control" 
+                                    list="treatmentOptions" 
+                                    [id]="'treatmentDataList' + i" 
+                                    formControlName="name" 
+                                    (change)="onInputChange($event, toGroup(item))"
+                                    placeholder="Vlasszon vagy törölje ezt a mezőt...">
+                                <div
+                                    *ngIf="isNotUnique(toGroup(item).controls['name'])"
+                                    class="alert alert-danger" 
+                                    role="alert">
+                                    Ez a kezelés már szerepel a listában!
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <button type="button" class="btn btn-danger" (click)="removeTreatment(i)">X</button>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <div class="col-md-4">
+                    <button type="button" class="btn btn-success" (click)="addTreatment()" [disabled]="treatmentsFormArray.invalid || diagnosisForm.disabled">Új</button>
+                </div>
+            </div>
+            <div class="col-6">
+                <h4>Gyógyszerek</h4>
+                <datalist id="medicineOptions">
+                    <option [value]="medicine.name + ' /' + medicine.id + '/'" *ngFor="let medicine of medicines" [disabled]="diagnosisForm.disabled"></option>
+                </datalist>
+                <ul class="list-group list-group-flush" formArrayName="treatments">
+                    <li class="list-group-item" *ngFor="let item of medicinesFormArray.controls; let i = index">
+                        <div class="row" [formGroup]="toGroup(item)">
+                            <div class="col-md-10">
+                                <input 
+                                    class="form-control" 
+                                    list="medicineOptions" 
+                                    [id]="'medicineDataList' + i" 
+                                    formControlName="name" 
+                                    (change)="onInputChange($event, toGroup(item))"
+                                    placeholder="Vlasszon vagy törölje ezt a mezőt...">
+                                <div
+                                    *ngIf="isNotUnique(toGroup(item).controls['name'])"
+                                    class="alert alert-danger" 
+                                    role="alert">
+                                    Ez a gyógyszer már szerepel a listában!
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <button type="button" class="btn btn-danger" (click)="removeMedicine(i)" [disabled]="diagnosisForm.disabled">X</button>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <div class="col-md-4">
+                    <button type="button" class="btn btn-success" (click)="addMedicine()" [disabled]="medicinesFormArray.invalid || diagnosisForm.disabled">Új</button>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col" formArrayName="reports">
+                <h4>Leletek</h4>
+                <div class="row">
+                    <div class="col-4">Lelet neve</div>
+                    <div class="col-3">Leleten szereplő dátum</div>
+                    <div class="col-4">Lelet</div>
+                    <div class="col-1"></div>
+                </div>
+                <div class="row" [formGroup]="toGroup(item)" *ngFor="let item of reportsFormArray.controls; let i = index">
+                    <div class="col-4">
+                        <input type="text" class="form-control" formControlName="name" placeholder="Lelet neve...">
+                    </div>
+                    <div class="col-3">
+                        <input type="date" class="form-control" formControlName="date">
+                    </div>
+                    <div class="col-4">
+                        <input type="file" class="form-control" formControlName="file" (change)="onFileChange($event, toGroup(item))">
+                        <div class="progress" style="height: 0.5rem;">
+                            <div class="progress-bar" role="progressbar" [style]="'width: ' + item.get('progress')?.value + '%'" [attr.aria-valuenow]="item.get('progress')?.value" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                    <div class="col-1">
+                        <button type="button" class="btn btn-danger" (click)="removeReport(i)" [disabled]="diagnosisForm.disabled">X</button>
+                    </div>
+                    <div
+                        *ngIf="toGroup(item).invalid"
+                        class="alert alert-warning" 
+                        role="alert">
+                        Töltse ki a mezőket vagy törölje a sort!
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-2">
+                        <button type="button" class="btn btn-success" (click)="addReport()" [disabled]="reportsFormArray.invalid || diagnosisForm.disabled">Új</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button type="button" class="btn btn-success" (click)="addDiagnosis()" [disabled]="diagnosisForm.invalid || diagnosisForm.disabled">Mentés</button>
+    </form>
+</div>

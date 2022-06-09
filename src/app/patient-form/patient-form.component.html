@@ -1,0 +1,64 @@
+<div class="container mb-4">
+    <div class="row">
+        <div class="col-3 d-grid gap-2">
+            <button type="button" class="btn btn-secondary" [routerLink]="['/']">Vissza</button>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col">
+            <h2>Új páciens</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <form [formGroup]="patientForm">
+                <label for="name" class="">Név</label>
+                <input type="text" class="form-control" id="name" formControlName="name">
+                <label for="b_date" class="">Születési idő</label>
+                <input type="date" class="form-control" id="b_date" formControlName="b_date">
+                <label for="taj" class="">Taj</label>
+                <input type="text" class="form-control" id="taj" formControlName="taj">
+                <label for="gender">Nem</label>
+                <select class="form-control" id="gender" formControlName="gender">
+                    <option value="male" selected>Férfi</option>
+                    <option value="female">Nő</option>
+                </select><br>
+
+                <div class="alert alert-danger" *ngIf="name?.invalid && (name?.dirty || name?.touched)">
+                    <div *ngIf="name?.errors?.['required']">
+                        A név megadása kötelező!
+                    </div>
+                </div>
+                <div class="alert alert-danger" *ngIf="b_date?.invalid && (b_date?.dirty || b_date?.touched)">
+                    <div *ngIf="b_date?.errors?.['required']">
+                        A születési dátum megadása kötelező!
+                    </div>
+                    <div *ngIf="b_date?.errors?.['maxDate']">
+                        A születési dátum nem lehet a mai napnál későbbi!
+                    </div>
+                </div>
+                <div class="alert alert-danger" *ngIf="taj?.invalid && (taj?.dirty || taj?.touched)">
+                    <div *ngIf="taj?.errors?.['required']">
+                        A tajszám megadása kötelező!
+                    </div>
+                    <div *ngIf="taj?.errors?.['length']">
+                        A tajszám 9 számjegyből kell álljon!
+                    </div>
+                    <div *ngIf="taj?.errors?.['checksum']">
+                        A tajszám <a href="javascript:void(0)" data-bs-toggle="tooltip" title="A TAJ szám egy kilenc számjegybõl álló szám, amelyben az elsõ nyolc számjegy egy folyamatosan kiadott egyszerû sorszám, amely mindig az elõzõ, utoljára kiadott sorszámból egy hozzáadásával keletkezik. A kilencedik számjegy ellenõrzõ ún. CDV kód, melynek képzési algoritmusa az alábbi:
+A TAJ szám elsõ nyolc számjegyébõl a páratlan helyen állókat hárommal, a páros helyen állókat héttel szorozzuk, és a szorzatokat összeadjuk. Az összeget tízzel elosztva a maradékot tekintjük a kilencedik, azaz CDV kódnak.">formátuma</a> nem megfelelő.
+                        Segítség: A helyes utolsó karakter: <strong>{{ taj?.errors?.['checksum'] }}</strong>.
+                    </div>
+                </div>
+                <div class="alert alert-danger" *ngIf="exist == taj?.value">
+                    <div>
+                        Ezzel a TAJ számmal már létezik páciens az adatbázisban.
+                    </div>
+                </div>
+                <button type="button" class="btn btn-success" [disabled]="patientForm.invalid" (click)="newPatient()">Mentés</button>
+            </form>
+        </div>
+    </div>
+</div>

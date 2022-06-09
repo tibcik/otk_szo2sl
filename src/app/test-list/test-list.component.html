@@ -1,0 +1,25 @@
+<div class="row">
+    <div class="col-3">
+        <button type="button" class="btn btn-success" [routerLink]="['/new_test']">Új teszt</button>
+    </div>
+</div>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">Név</th>
+            <th scope="col">Kezdőkor</th>
+            <th scope="col">Időköz</th>
+            <th scope="col">Nem</th>
+            <th scope="col">#</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let test of tests">
+            <td>{{ test.name }}</td>
+            <td>{{ test.start_age }}</td>
+            <td>{{ test.interval }}</td>
+            <td>{{ test.gender | genderFormater }}</td>
+            <td><button type="button" class="btn btn-primary" [routerLink]="['/test']" [queryParams]="{id: test.id}" >Kiválaszt</button></td>
+          </tr>
+    </tbody>
+</table>

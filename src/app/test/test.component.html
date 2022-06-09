@@ -1,0 +1,91 @@
+<div class="container mb-4">
+    <div class="row">
+        <div class="col-3 d-grid gap-2">
+            <button type="button" class="btn btn-secondary" [routerLink]="['/tests']">Vissza</button>
+        </div>
+        <div class="col-3"></div>
+        <div class="col-3 d-grid gap-2">
+            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">Teszt törlése</button>
+        </div>
+        <div class="col-3 d-grid gap-2">
+            <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#notifyModal">Kiértesítés</button>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <h2>{{ test.name }}</h2>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">Adatok</h5>
+                  <div class="container card-body">
+                    <div class="row">
+                        <div class="col-4">Név</div>
+                        <div class="col">{{ test.name }}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">Kezdő kor</div>
+                        <div class="col">{{ test.start_age }}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">Időköz</div>
+                        <div class="col">{{ test.interval }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">Nem</div>
+                        <div class="col">{{ test.gender | genderFormater }}</div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h2>Szűrővizsgálatra váró páciensek</h2>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">Név</th>
+            <th scope="col">Született</th>
+            <th scope="col">TAJ szám</th>
+            <th scope="col">Nem</th>
+            <th scope="col">Megjelent</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let patient of patients; let i = index">
+            <td>{{ patient.name }}</td>
+            <td>{{ patient.b_date }}</td>
+            <td>{{ patient.taj | tajFormater }}</td>
+            <td>{{ patient.gender | genderFormater }}</td>
+            <td>{{ getLastTestDate(patient) }}</td>
+          </tr>
+    </tbody>
+</table>
+
+<div class="modal fade" id="deleteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="deleteModalLabel">Törlés</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <p>
+                Biztos törölni szeretné a tesztet?
+            </p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Mégse</button>
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="deleteTest()">Törlés</button>
+        </div>
+        </div>
+    </div>
+</div>
+
+<app-notification [testId]="test.id"></app-notification>

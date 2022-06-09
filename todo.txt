@@ -1,0 +1,45 @@
+7. Orvosi törzsadat kezelés
+Általános leírás
+A cél, egy olyan szoftver tervezése és megvalósítása, amely képes segítséget nyújtani egy háziorvosi praxis beteg adminisztrációjához: betegek nyílvántartása, vizitek adminisztrációja, szűrővizsgálatokra való kiértesítés adminisztrációja.
+
+Felhasználási esetek
+Betegek nyílvántartása
+A háziorvos betegeit regisztrálni kell a programban. A tárolandó információk: név, szül. dátum, taj szám, kórtörténet: felírt gyógyszerek és kezelések listája.
+
+Vizit menedzselése
+A beteg megjelenik az orvosnál a TAJ kártyájával. A program listázza a kórtörénetet. Az orvosnak lehetősége van egy új mezőbe beírni a diagnózist és a felirt gyógyszerek és kezelések listáját. Az orvos, a beteg által hozott leleteket is mentheti a rendszerrel.
+
+Szűrőviszgálatok
+Megadott feltételek alapján a rendszer listát készít azokról a páciensekről, akiknek szűrőviszgálatokon kell résztvenniük. Pl. évente 1-szer tüdőszűrő vizsgálat a 18 évesnél idősebbeknek, nemtől függetlenül. 2 évente prosztata viszgálat a 35 évesnél idősebb férfiaknak (nem röhög!). 3 évente mammográfiai vizsgálat a 45 évesnél idősebb nőknek. 5 évente általános vizsgálat mindenkinek. A lista alapján az asszisztensek levelet küldenek az érintetteknek (ezt a részt nem kell implementálni.
+
+Models:
+    Betegek
+        Név
+        Születési idő
+        TAJ szám
+        Nem
+    Diagnózisok
+        Diagnozis
+        Dátum
+        Beteg ID
+        Diagnózis ID
+    Gyógyszerek
+        Gyógyszer
+    Kezelések
+        Kezelés
+    Leletek
+        Lelet neve
+        Elérési út
+        Diagnózis ID
+    Tesztek
+        Teszt neve
+        Kezdő kor
+        Időköz
+        Nem
+    Elvégzett tesztek
+        Beteg ID
+        Teszt ID
+        Dátum
+    (Diagnózis <> Gyógyszer)
+    (Diagnózis <> Kezelés)
+    (Diagnózis <> Lelet)

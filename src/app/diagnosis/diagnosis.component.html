@@ -1,0 +1,61 @@
+<div class="container-fluid">
+    <div class="row mt-2 shadow p-3 mb-5 bg-body rounded">
+        <div class="col-8">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h6 class="card-subtitle mb-2 text-muted">{{ diagnosis.date | date:"yyyy.MM.dd HH:mm" }}</h6>
+                    <p class="card-text">{{ diagnosis.diagnosis }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="accordion" [id]="'extraFields'+diagnosis.id">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" [id]="'headingTreatments'+diagnosis.id">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#collapseTreatments'+diagnosis.id" aria-expanded="false" [attr.aria-controls]="'collapseTreatments'+diagnosis.id">
+                            Kezelések
+                        </button>
+                    </h2>
+                    <div [id]="'collapseTreatments'+diagnosis.id" class="accordion-collapse collapse" [attr.aria-labelledby]="'headingTreatments'+diagnosis.id" [attr.data-bs-parent]="'#extraFields'+diagnosis.id">
+                        <div class="accordion-body">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item" *ngFor="let treatment of diagnosis.treatments">{{ treatment.name }}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" [id]="'headingMedicines'+diagnosis.id">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#collapseMedicines'+diagnosis.id" aria-expanded="false" [attr.aria-controls]="'collapseMedicines'+diagnosis.id">
+                            Gyógyszerek
+                        </button>
+                    </h2>
+                    <div [id]="'collapseMedicines'+diagnosis.id" class="accordion-collapse collapse" [attr.aria-labelledby]="'headingMedicines'+diagnosis.id" [attr.data-bs-parent]="'#extraFields'+diagnosis.id">
+                        <div class="accordion-body">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item" *ngFor="let medicine of diagnosis.medicines">{{ medicine.name }}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" [id]="'headingReports'+diagnosis.id">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#collapseReports'+diagnosis.id" aria-expanded="false" [attr.aria-controls]="'collapseReports'+diagnosis.id">
+                            Leletek
+                        </button>
+                    </h2>
+                    <div [id]="'collapseReports'+diagnosis.id" class="accordion-collapse collapse" [attr.aria-labelledby]="'headingReports'+diagnosis.id" [attr.data-bs-parent]="'#extraFields'+diagnosis.id">
+                        <div class="accordion-body">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item" *ngFor="let report of diagnosis.reports">
+                                    {{ report.date | date:'yyyy.MM.dd' }} - {{ report.name }}
+                                    <button type="button" class="btn btn-primary position-absolute top-0 end-0" (click)="downloadReport(report)">Letöltés</button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

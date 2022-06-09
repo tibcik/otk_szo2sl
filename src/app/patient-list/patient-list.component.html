@@ -1,0 +1,31 @@
+<form class="fixed-top end-0" style="left: auto; padding-top: 16px; padding-right: 20px;">
+    <div class="row g-3 align-items-center">
+      <div class="col-auto">
+        <label for="inputPassword6" class="col-form-label">Keresés TAJ szám alapján</label>
+      </div>
+      <div class="col-auto">
+        <input type="text" class="form-control" placeholder="TAJ" aria-label="Search" [(ngModel)]="search" (keyup)="searchChange()" [ngModelOptions]="{standalone: true}">
+      </div>
+    </div>
+</form>
+<button type="button" class="btn btn-success" (click)="newPatient()">Új páciens</button>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">Név</th>
+            <th scope="col">Született</th>
+            <th scope="col">TAJ szám</th>
+            <th scope="col">Nem</th>
+            <th scope="col">#</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let patient of matchPatients">
+            <td>{{ patient.name }}</td>
+            <td>{{ patient.b_date }}</td>
+            <td>{{ patient.taj | tajFormater }}</td>
+            <td>{{ patient.gender | genderFormater }}</td>
+            <td><button type="button" class="btn btn-primary" (click)="viewPatient(patient.id)">Kiválaszt</button></td>
+          </tr>
+    </tbody>
+</table>

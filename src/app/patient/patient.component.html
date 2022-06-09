@@ -1,0 +1,85 @@
+<div class="container mb-4">
+    <div class="row">
+        <div class="col-3 d-grid gap-2">
+            <button type="button" class="btn btn-secondary" [routerLink]="['/']">Vissza</button>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <h2>{{ patient.name }}</h2>
+    </div>
+    <div class="row">
+        <div class="col-8">
+            <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">Adatok</h5>
+                  <div class="container card-body">
+                    <div class="row">
+                        <div class="col-4">Név</div>
+                        <div class="col">{{ patient.name }}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">Születési dátum</div>
+                        <div class="col">{{ patient.b_date }}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">TAJ szám</div>
+                        <div class="col">{{ patient.taj | tajFormater }}
+                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                                TAJ törlése
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">Nem</div>
+                        <div class="col">{{ patient.gender | genderFormater }}</div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="card">
+                <div class="card-header">
+                    Szükséges szűrővizsgálatok
+                    </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item list-group-item-warning" role="button" *ngFor="let test of tests" (click)="performeTest(test)">
+                        {{ test.name }}
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <app-diagnosis-form [test]="test" [patientID]="patient.id" (refresh)="refreshDiagnoses()" (resetTest)="resetTest()" (refreshTests)="refreshTests()"></app-diagnosis-form>
+    <app-diagnosis [diagnosis]="diagnosis" *ngFor="let diagnosis of diagnoses"></app-diagnosis>
+</div>
+
+<div class="modal fade" id="deleteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="deleteModalLabel">Törlés</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <p>
+                <strong>Figyelem</strong>
+            </p>
+            <p>
+                Ha törli a beteg TAJ számlát az újra felhasználható lesz, de a beteg többé nem lesz látható.
+                A beteg nem fog megjelenni a betegek listájában!
+                A beteg adatait nem fogja tudni megtekinteni!<br>
+            </p>
+            <p>
+                Biztos törölni szeretné a beteg TAJ számát?
+            </p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Mégse</button>
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="deletePatient()">Törlés</button>
+        </div>
+        </div>
+    </div>
+</div>
